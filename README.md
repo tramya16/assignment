@@ -10,9 +10,9 @@ Build and Run Docker Containers, This command will build the Docker images and s
       docker-compose up --build
       
 
-Access Django API
+Access Django APIs on swagger documentations via
    
-      Visit http://localhost:8000/api/ to access the Django API.
+     http://127.0.0.1:8000/doc/
 
 Stopping the Containers, To stop the containers, use the following command:
    
