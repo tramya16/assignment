@@ -1,0 +1,36 @@
+version: '3.8'
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000
+    volumes:
+      - .:/app
+    depends_on:
+      - mysql
+      - mongodb
+
+  mysql:
+    image: mysql:5.7.22
+    restart: always
+    environment:
+      MYSQL_DATABASE: admin
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - .dbdata:/var/lib/mysql
+    ports:
+      - 33066:3306
+
+  mongodb:
+    image: mongo:latest
+    healthcheck:
+      test: [ "CMD", "mongo", "--eval", "printjson(db.serverStatus())" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    ports:
+      - 27011:27017
