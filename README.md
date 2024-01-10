@@ -1,7 +1,7 @@
 Setup Instructions
 Clone the Repository :
 
-      git clone <repository-url>
+      git clone https://github.com/tramya16/assignment.git
       cd assignment
       cd admin
 
