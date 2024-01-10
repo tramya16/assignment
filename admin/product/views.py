@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from drf_yasg.utils import swagger_auto_schema
 
 # Create your views here.
 # product/views.py
@@ -8,11 +9,13 @@ from .models import Product
 from .serializers import ProductSerializer
 
 class ProductViewSet(viewsets.ViewSet):
+    @swagger_auto_schema(operation_description="List all products")
     def list(self,request):
         products = Product.objects.all()
         serializer = ProductSerializer(products,many=True)
         return Response(serializer.data)
 
+    @swagger_auto_schema(request_body=ProductSerializer, responses={201: ProductSerializer()})
     def create(self,request):
         serializer = ProductSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -29,25 +32,3 @@ class ProductViewSet(viewsets.ViewSet):
         except Exception as e:
             return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-    def update(self,request,pk=None):
-        try:
-            product = Product.objects.get(product_id=pk)
-            serializer = ProductSerializer(product, data=request.data,partial=True)
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        except Product.DoesNotExist:
-            return Response({"detail": "Product not found"}, status=status.HTTP_404_NOT_FOUND)
-        except Exception as e:
-            return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-    def destroy(self,request,pk=None):
-        try:
-            product = Product.objects.get(product_id=pk)
-            product.delete()
-            return Response(status=status.HTTP_204_NO_CONTENT)
-        except Product.DoesNotExist:
-            return Response({"detail": "Product not found"}, status=status.HTTP_404_NOT_FOUND)
-        except Exception as e:
-            return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'corsheaders',
     'product',
     'user',
-    'rest_framework_simplejwt',
     'drf_yasg',
 ]
 
@@ -124,27 +123,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ),
-}
 
-SIMPLE_JWT = {
-    'AUTH_HEADER_TYPES': ('Bearer',),
-    'BLACKLIST_DB': 'mysqldb'
-}
 
-AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
-    # other backends if needed
-]
-
-PASSWORD_HASHERS = [
-    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
-
-    # other hashers if needed
-]
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
